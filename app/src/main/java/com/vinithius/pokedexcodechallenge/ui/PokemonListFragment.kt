@@ -1,6 +1,7 @@
 package com.vinithius.pokedexcodechallenge.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,7 @@ class PokemonListFragment : Fragment() {
     }
 
 
-    private fun observerPokemons(nameStartsWith: String? = null) {
+    private fun observerPokemons() {
         with(viewModel) {
             getPokemonList()?.observe(viewLifecycleOwner) {
                 lifecycleScope.launch {
@@ -53,6 +54,11 @@ class PokemonListFragment : Fragment() {
             adapter = PokemonListAdapter()
             adapter.addOnPagesUpdatedListener {
                 progressBarPaging.isVisible = !progressBarPaging.isVisible
+            }
+            recyclerViewPokemons.adapter = adapter.apply {
+                onCallBackClickDetail = { url ->
+                    Log.i("DETAIL", url)
+                }
             }
         }
     }

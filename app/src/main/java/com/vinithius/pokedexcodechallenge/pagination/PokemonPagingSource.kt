@@ -13,7 +13,7 @@ class PokemonPagingSource(
 ) : PagingSource<Int, Pokemon>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Pokemon> {
-        val pageNumber = params.key ?: OFFSET
+        val pageNumber = params.key ?: 0
         return try {
             val response = pokemonRemoteDataSource.getPokemonList(pageNumber)
             val pokemons = response.results

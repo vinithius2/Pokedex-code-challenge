@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.vinithius.pokedexcodechallenge.databinding.ViewholderPokemonBinding
 import com.vinithius.pokedexcodechallenge.datasource.response.Pokemon
+import com.vinithius.pokedexcodechallenge.extension.capitalize
+import com.vinithius.pokedexcodechallenge.extension.setPokemonImage
 
-class PokemonListAdapter() :
+class PokemonListAdapter :
     PagingDataAdapter<Pokemon, PokemonListAdapter.PokemonViewHolder>(COMPARATOR) {
 
-    var onCallBackClickDetail: ((id: Int) -> Unit)? = null
+    var onCallBackClickDetail: ((url: String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val binding = ViewholderPokemonBinding.inflate(
@@ -25,20 +27,44 @@ class PokemonListAdapter() :
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
-            holder.bind(currentItem)
+            holder.bind(currentItem, onCallBackClickDetail)
         }
     }
 
     inner class PokemonViewHolder(private val binding: ViewholderPokemonBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(pokemon: Pokemon) {
+
+        fun bind(
+            pokemon: Pokemon,
+            onCallBackClickDetail: ((url: String) -> Unit)?
+        ) {
             with(binding) {
-                title.text = pokemon.name
+                titlePokemon.text = pokemon.name.capitalize()
+                layoutData.setOnClickListener {
+                    pokemon.url?.let { url -> onCallBackClickDetail?.invoke(url) }
+                }
+                with(imgPokeball) {
+                    setData(pokemon.name)
+                    setOnClickListener {
+                        clickPokeball()
+                    }
+                }
+                setImage(pokemon)
             }
         }
+
+        /**
+         * Add the pokemon image from the source "img.pokemondb" to each item in the list.
+         */
+        private fun setImage(pokemon: Pokemon) {
+            binding.imagePokemon.setPokemonImage(pokemon)
+        }
+
     }
 
     companion object {
+
+        const val FAVORITES = "FAVORITES"
 
         private object COMPARATOR : DiffUtil.ItemCallback<Pokemon>() {
             override fun areItemsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
