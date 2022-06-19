@@ -1,4 +1,6 @@
 package com.vinithius.pokedexcodechallenge.ui
 
-class PokemonDetailFragment {
+import androidx.fragment.app.Fragment
+
+class PokemonDetailFragment : Fragment() {
 }
