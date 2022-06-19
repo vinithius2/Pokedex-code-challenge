@@ -7,6 +7,9 @@ import org.koin.core.context.startKoin
 
 private val listModules by lazy {
     listOf(
+        repositoryModule,
+        repositoryDataModule,
+        viewModelModule,
         networkModule
     )
 }

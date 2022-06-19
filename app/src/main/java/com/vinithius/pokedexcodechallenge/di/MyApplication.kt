@@ -1,6 +1,8 @@
 package com.vinithius.pokedexcodechallenge.di
 
-import okhttp3.Interceptor
+import com.vinithius.pokedexcodechallenge.datasource.repository.PokemonRemoteDataSource
+import com.vinithius.pokedexcodechallenge.datasource.repository.PokemonRepository
+import com.vinithius.pokedexcodechallenge.ui.PokemonViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -8,6 +10,18 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+
+val repositoryModule = module {
+    single { get<Retrofit>().create(PokemonRemoteDataSource::class.java) }
+}
+
+val repositoryDataModule = module {
+    single { PokemonRepository(get()) }
+}
+
+val viewModelModule = module {
+    single { PokemonViewModel(get()) }
+}
 
 val networkModule = module {
     single { retrofit() }
