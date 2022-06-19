@@ -58,7 +58,7 @@ class PokeballComponent(context: Context, attrs: AttributeSet?) : ConstraintLayo
     }
 
     /**
-     * Makes the Pokeball animation opening or closing.
+     * Makes the Pokeball anim opening or closing.
      */
     private fun setAnimation(id_click: Int) {
         binding.imagePokeball.background =
