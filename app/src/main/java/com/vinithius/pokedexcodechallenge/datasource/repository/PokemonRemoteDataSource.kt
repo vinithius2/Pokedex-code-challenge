@@ -2,9 +2,7 @@ package com.vinithius.pokedexcodechallenge.datasource.repository
 
 import com.vinithius.pokedexcodechallenge.datasource.response.Pokemon
 import com.vinithius.pokedexcodechallenge.datasource.response.PokemonDataWrapper
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface PokemonRemoteDataSource {
 
@@ -17,5 +15,17 @@ interface PokemonRemoteDataSource {
     suspend fun getPokemonDetail(
         @Path("id") id: Int
     ): Pokemon
+
+    @POST
+    suspend fun setFavorite(
+        @Url url: String,
+        @Body pokemon: Pokemon
+    )
+
+    @HTTP(
+        method = "DELETE",
+        hasBody = true
+    )
+    suspend fun deleteFavorite(@Url url: String, @Body pokemon: Pokemon)
 
 }

@@ -68,6 +68,9 @@ class PokemonListFragment : Fragment() {
                 onCallBackClickDetail = { url ->
                     Log.i("DETAIL", url)
                 }
+                onCallBackClickFavorite = { favorite, pokemon ->
+                    viewModel.setFavorite(pokemon, context)
+                }
             }
         }
     }

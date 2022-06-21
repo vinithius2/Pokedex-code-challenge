@@ -14,6 +14,7 @@ class PokemonListAdapter :
     PagingDataAdapter<Pokemon, PokemonListAdapter.PokemonViewHolder>(COMPARATOR) {
 
     var onCallBackClickDetail: ((url: String) -> Unit)? = null
+    var onCallBackClickFavorite: ((favorite: Boolean, pokemon : Pokemon) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val binding = ViewholderPokemonBinding.inflate(
@@ -46,7 +47,8 @@ class PokemonListAdapter :
                 with(imgPokeball) {
                     setData(pokemon.name)
                     setOnClickListener {
-                        clickPokeball()
+                        val favorite = clickPokeball()
+                        onCallBackClickFavorite?.invoke(favorite, pokemon)
                     }
                 }
                 setImage(pokemon)

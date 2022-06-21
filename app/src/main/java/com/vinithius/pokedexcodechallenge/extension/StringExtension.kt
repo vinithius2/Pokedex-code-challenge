@@ -1,6 +1,8 @@
 package com.vinithius.pokedexcodechallenge.extension
 
+import android.content.Context
 import android.net.Uri
+import com.vinithius.pokedexcodechallenge.ui.PokemonListAdapter
 
 
 fun String.capitalize(): String {
@@ -17,4 +19,15 @@ fun String.getIdIntoUrl(): String? {
         return null
     }
     return null
+}
+
+/**
+ * Get if the pokemon is favorite or not, if null, returns false.
+ */
+fun String.getIsFavorite(context : Context): Boolean {
+    val sharedPref = context.getSharedPreferences(
+        PokemonListAdapter.FAVORITES,
+        Context.MODE_PRIVATE
+    )
+    return sharedPref.getBoolean(this, false)
 }
