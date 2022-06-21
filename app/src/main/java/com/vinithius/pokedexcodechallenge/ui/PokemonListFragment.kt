@@ -1,16 +1,17 @@
 package com.vinithius.pokedexcodechallenge.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.vinithius.pokedexcodechallenge.R
 import com.vinithius.pokedexcodechallenge.databinding.FragmentListPokemonBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -65,10 +66,13 @@ class PokemonListFragment : Fragment() {
                 progressBarPaging.isVisible = !progressBarPaging.isVisible
             }
             recyclerViewPokemons.adapter = adapter.apply {
-                onCallBackClickDetail = { url ->
-                    Log.i("DETAIL", url)
+                onCallBackClickDetail = { id ->
+                    viewModel.setIdPokemon(id)
+                    findNavController().navigate(
+                        R.id.action_pokemonListFragment_to_pokemonDetailFragment,
+                    )
                 }
-                onCallBackClickFavorite = { favorite, pokemon ->
+                onCallBackClickFavorite = { pokemon ->
                     viewModel.setFavorite(pokemon, context)
                 }
             }

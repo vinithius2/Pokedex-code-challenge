@@ -18,6 +18,10 @@ class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() 
 
     var currentResult: LiveData<PagingData<Pokemon>>? = null
 
+    private val _pokemonDetail = MutableLiveData<Pokemon>()
+    val pokemonDetail: LiveData<Pokemon>
+        get() = _pokemonDetail
+
     private val _pokemonDetailLoading = MutableLiveData<Boolean>()
     val pokemonDetailLoading: LiveData<Boolean>
         get() = _pokemonDetailLoading
@@ -60,12 +64,13 @@ class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() 
     /**
      * Get all details pokemon.
      */
-    fun getPokemon() {
+    fun getPokemonDetail() {
         CoroutineScope(Dispatchers.IO).launch {
             _pokemonDetailError.postValue(false)
             _pokemonDetailLoading.postValue(true)
             try {
-                repository.getPokemonDetail(_idPokemon)
+                val pokemon = repository.getPokemonDetail(_idPokemon)
+                _pokemonDetail.postValue(pokemon)
             } catch (e: Exception) {
                 _pokemonDetailError.postValue(true)
                 Log.e("getPokemon", e.toString())

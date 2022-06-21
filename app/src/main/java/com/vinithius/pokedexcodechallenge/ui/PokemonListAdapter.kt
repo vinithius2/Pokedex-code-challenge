@@ -8,13 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vinithius.pokedexcodechallenge.databinding.ViewholderPokemonBinding
 import com.vinithius.pokedexcodechallenge.datasource.response.Pokemon
 import com.vinithius.pokedexcodechallenge.extension.capitalize
+import com.vinithius.pokedexcodechallenge.extension.getIdIntoUrl
 import com.vinithius.pokedexcodechallenge.extension.setPokemonImage
 
 class PokemonListAdapter :
     PagingDataAdapter<Pokemon, PokemonListAdapter.PokemonViewHolder>(COMPARATOR) {
 
-    var onCallBackClickDetail: ((url: String) -> Unit)? = null
-    var onCallBackClickFavorite: ((favorite: Boolean, pokemon : Pokemon) -> Unit)? = null
+    var onCallBackClickDetail: ((id: Int) -> Unit)? = null
+    var onCallBackClickFavorite: ((pokemon: Pokemon) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val binding = ViewholderPokemonBinding.inflate(
@@ -37,18 +38,20 @@ class PokemonListAdapter :
 
         fun bind(
             pokemon: Pokemon,
-            onCallBackClickDetail: ((url: String) -> Unit)?
+            onCallBackClickDetail: ((id: Int) -> Unit)?
         ) {
             with(binding) {
                 titlePokemon.text = pokemon.name.capitalize()
                 layoutData.setOnClickListener {
-                    pokemon.url?.let { url -> onCallBackClickDetail?.invoke(url) }
+                    pokemon.url?.getIdIntoUrl()?.let {
+                        onCallBackClickDetail?.invoke(it.toInt())
+                    }
                 }
                 with(imgPokeball) {
                     setData(pokemon.name)
                     setOnClickListener {
-                        val favorite = clickPokeball()
-                        onCallBackClickFavorite?.invoke(favorite, pokemon)
+                        clickPokeball()
+                        onCallBackClickFavorite?.invoke(pokemon)
                     }
                 }
                 setImage(pokemon)
