@@ -18,8 +18,8 @@ class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() 
 
     var currentResult: LiveData<PagingData<Pokemon>>? = null
 
-    private val _pokemonDetail = MutableLiveData<Pokemon>()
-    val pokemonDetail: LiveData<Pokemon>
+    private val _pokemonDetail = MutableLiveData<Pokemon?>()
+    val pokemonDetail: LiveData<Pokemon?>
         get() = _pokemonDetail
 
     private val _pokemonDetailLoading = MutableLiveData<Boolean>()
@@ -34,6 +34,10 @@ class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() 
 
     fun setIdPokemon(value: Int) {
         _idPokemon = value
+    }
+
+    fun cleanPokemon() {
+        _pokemonDetail.value = null
     }
 
     /**

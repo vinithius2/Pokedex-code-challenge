@@ -1,22 +1,37 @@
 package com.vinithius.pokedexcodechallenge.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
+import com.vinithius.pokedexcodechallenge.R
 import com.vinithius.pokedexcodechallenge.databinding.FragmentDetailPokemonBinding
+import com.vinithius.pokedexcodechallenge.extension.capitalize
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class PokemonDetailFragment : Fragment() {
 
     private val viewModel by sharedViewModel<PokemonViewModel>()
     private lateinit var binding: FragmentDetailPokemonBinding
+    private var toolbar: ActionBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar = (activity as MainActivity).supportActionBar
+        toolbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.cleanPokemon()
+        toolbar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            title = resources.getText(R.string.app_name)
+        }
     }
 
     override fun onCreateView(
@@ -37,7 +52,9 @@ class PokemonDetailFragment : Fragment() {
     private fun observerPokemonDetail() {
         with(viewModel) {
             pokemonDetail.observe(viewLifecycleOwner) { pokemon ->
-                Log.i("observerPokemonDetail", pokemon.toString())
+                pokemon?.let {
+                    toolbar?.apply { title = it.name.capitalize() }
+                }
             }
         }
     }
