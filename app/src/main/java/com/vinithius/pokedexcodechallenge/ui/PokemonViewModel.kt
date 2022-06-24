@@ -71,8 +71,8 @@ class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() 
     fun getPokemonDetail() {
         CoroutineScope(Dispatchers.IO).launch {
             _pokemonDetailError.postValue(false)
-            _pokemonDetailLoading.postValue(true)
             try {
+                _pokemonDetailLoading.postValue(true)
                 val pokemon = repository.getPokemonDetail(_idPokemon)
                 _pokemonDetail.postValue(pokemon)
             } catch (e: Exception) {

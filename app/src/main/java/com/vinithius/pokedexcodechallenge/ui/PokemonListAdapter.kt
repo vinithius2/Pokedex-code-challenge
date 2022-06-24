@@ -59,7 +59,7 @@ class PokemonListAdapter :
         }
 
         /**
-         * Add the pokemon image from the source "img.pokemondb" to each item in the list.
+         * Add the pokemon image from the source.
          */
         private fun setImage(pokemon: Pokemon) {
             binding.imagePokemon.setPokemonImage(pokemon)

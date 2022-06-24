@@ -70,4 +70,7 @@ dependencies {
     // Palette
     def palette_version = "1.0.0"
     implementation "androidx.palette:palette:$palette_version"
+    // Charts
+    def chart_version = "3.10.1"
+    implementation "com.diogobernardino:williamchart:$chart_version"
 }
