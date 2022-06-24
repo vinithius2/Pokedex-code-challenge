@@ -59,9 +59,6 @@ class PokemonDetailFragment : Fragment() {
             setBackgroundDrawable(ColorDrawable(colorToolBar))
             activity?.window?.statusBarColor = colorWindow
         }
-        binding.layoutError.btnReloading.setOnClickListener {
-            viewModel.getPokemonDetail()
-        }
     }
 
     override fun onCreateView(
@@ -70,6 +67,9 @@ class PokemonDetailFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
         binding = FragmentDetailPokemonBinding.inflate(inflater)
+        binding.layoutError.btnReloading.setOnClickListener {
+            viewModel.getPokemonDetail()
+        }
         return binding.root
     }
 
@@ -113,7 +113,7 @@ class PokemonDetailFragment : Fragment() {
                 binding.layoutError.textError.isGone = !error
                 binding.layoutError.btnReloading.isGone = !error
                 binding.layoutError.pikachuSad.isGone = !error
-                binding.scrollDetailPokemon.isGone = error
+                binding.layoutDetailPokemon.isGone = error
             }
         }
     }
@@ -371,6 +371,9 @@ class PokemonDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Bottom Sheet to show damages.
+     */
     private fun bottomSheetDamage(damage: Damage) {
         context?.let {
             val dialog = BottomSheetDialog(it)

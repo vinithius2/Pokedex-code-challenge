@@ -23,7 +23,6 @@ class PokemonCustomListItemComponent(context: Context, attrs: AttributeSet?) :
     private var dominantCard: Palette.Swatch? = null
     private var drawableIco: Drawable? = null
 
-    private var action_expand_card: Boolean = false
     private var expand_card: Boolean = false
         set(value) {
             field = value
@@ -62,12 +61,18 @@ class PokemonCustomListItemComponent(context: Context, attrs: AttributeSet?) :
         }
     }
 
+    /**
+     * Put icon in left position.
+     */
     private fun setIco(title: String) {
         getIco(title)?.let {
             binding.icoLeft.setImageResource(it)
         }
     }
 
+    /**
+     * Get icon by name.
+     */
     private fun getIco(title: String): Int? {
         return when (title.lowercase()) {
             ABILITIES -> R.drawable.ic_left_abilities
@@ -78,6 +83,9 @@ class PokemonCustomListItemComponent(context: Context, attrs: AttributeSet?) :
         }
     }
 
+    /**
+     * Set visibilitie in views.
+     */
     private fun setVisible(value: Boolean) {
         if (!value) {
             with(binding) {
@@ -89,6 +97,9 @@ class PokemonCustomListItemComponent(context: Context, attrs: AttributeSet?) :
         }
     }
 
+    /**
+     * Set title in component.
+     */
     private fun setTitle(value: String?) {
         value?.let {
             binding.titleCustom.text = it
@@ -96,16 +107,19 @@ class PokemonCustomListItemComponent(context: Context, attrs: AttributeSet?) :
         }
     }
 
-    private fun setAdapter(data_list: List<String>) {
+    /**
+     * Set list items in adapter.
+     */
+    private fun setAdapter(dataList: List<String>) {
         with(binding) {
-            if (data_list.isNullOrEmpty()) {
+            if (dataList.isNullOrEmpty()) {
                 cardviewCustom.visibility = View.GONE
             } else {
                 val layoutManager = LinearLayoutManager(context)
                 recyclerViewPokemonCustom.layoutManager = layoutManager
                 recyclerViewPokemonCustom.adapter =
                     PokemonCustomAdapter(
-                        data_list,
+                        dataList,
                         darkCard,
                         dominantCard,
                         drawableIco,
@@ -116,6 +130,9 @@ class PokemonCustomListItemComponent(context: Context, attrs: AttributeSet?) :
         }
     }
 
+    /**
+     * Set bottomsheet items.
+     */
     private fun bottomSheetDamage() {
         context?.let {
             val dialog = BottomSheetDialog(it)
@@ -152,7 +169,7 @@ class PokemonCustomListItemComponent(context: Context, attrs: AttributeSet?) :
         darkCard = dark
         dominantCard = dominant
         hiddenListCard = hiddenList
-        dataListCard = dataList // Always last item
+        dataListCard = dataList
     }
 
     companion object {

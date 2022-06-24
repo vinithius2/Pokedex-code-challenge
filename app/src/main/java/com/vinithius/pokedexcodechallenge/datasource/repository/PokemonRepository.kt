@@ -1,15 +1,15 @@
 package com.vinithius.pokedexcodechallenge.datasource.repository
 
 import android.content.Context
-import android.net.Uri
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.vinithius.pokedexcodechallenge.BuildConfig
-import com.vinithius.pokedexcodechallenge.datasource.response.Damage
-import com.vinithius.pokedexcodechallenge.datasource.response.Pokemon
+import com.vinithius.pokedexcodechallenge.datasource.response.*
 import com.vinithius.pokedexcodechallenge.extension.getIsFavorite
 import com.vinithius.pokedexcodechallenge.pagination.PokemonPagingSource
+import retrofit2.HttpException
 
 
 class PokemonRepository(private val remoteDataSource: PokemonRemoteDataSource) {
@@ -21,39 +21,71 @@ class PokemonRepository(private val remoteDataSource: PokemonRemoteDataSource) {
             }
         ).liveData
 
-    suspend fun getPokemonDetail(id: Int): Pokemon {
-        val pokemon = remoteDataSource.getPokemonDetail(id)
-        val encountersRequest = remoteDataSource.getPokemonEncounters(id)
-        val characteristicRequest = remoteDataSource.getPokemonCharacteristic(id)
-        val specieRequest = remoteDataSource.getPokemonSpecies(id)
-        Uri.parse(specieRequest.evolution_chain.url).pathSegments.getOrNull(3)?.let {
-            remoteDataSource.getPokemonEvolution(it.toInt()).let { evolution_response ->
-                pokemon.apply { evolution = evolution_response }
-            }
+    suspend fun getPokemonDetail(id: Int): Pokemon? {
+        return try {
+            remoteDataSource.getPokemonDetail(id)
+        } catch (e: HttpException) {
+            Log.e("Pokemon (ID: $id) ", e.toString())
+            null
         }
-        val damageList: MutableList<Damage> = mutableListOf()
-        pokemon.types?.forEach { type_list ->
-            remoteDataSource.getPokemonDamageRelations(type_list.type.name).let {
-                it.type = type_list.type
-                damageList.add(it)
-            }
+    }
+
+    suspend fun getPokemonEncounters(id: Int): List<Location>? {
+        return try {
+            remoteDataSource.getPokemonEncounters(id)
+        } catch (e: HttpException) {
+            Log.e("Encounters (ID: $id) ", e.toString())
+            null
         }
-        pokemon.apply {
-            encounters = encountersRequest
-            characteristic = characteristicRequest
-            specie = specieRequest
-            damage = damageList.toList()
+    }
+
+    suspend fun getPokemonEvolution(id: Int): EvolutionChain? {
+        return try {
+            remoteDataSource.getPokemonEvolution(id)
+        } catch (e: HttpException) {
+            Log.e("EvolutionChain (ID: $id) ", e.toString())
+            null
         }
-        return pokemon
+    }
+
+    suspend fun getPokemonCharacteristic(id: Int): Characteristic? {
+        return try {
+            remoteDataSource.getPokemonCharacteristic(id)
+        } catch (e: HttpException) {
+            Log.e("Characteristic (ID: $id) ", e.toString())
+            null
+        }
+    }
+
+    suspend fun getPokemonSpecies(id: Int): Specie? {
+        return try {
+            remoteDataSource.getPokemonSpecies(id)
+        } catch (e: HttpException) {
+            Log.e("Specie (ID: $id) ", e.toString())
+            null
+        }
+    }
+
+    suspend fun getPokemonDamageRelations(type: String): Damage? {
+        return try {
+            remoteDataSource.getPokemonDamageRelations(type)
+        } catch (e: HttpException) {
+            Log.e("Damage (Type: $type) ", e.toString())
+            null
+        }
     }
 
     suspend fun setFavorite(pokemon: Pokemon, context: Context?) {
         context?.let {
-            val favorite = pokemon.name.getIsFavorite(context)
-            if (favorite) {
-                remoteDataSource.setFavorite(urlFavorite, pokemon)
-            } else {
-                remoteDataSource.deleteFavorite(urlFavorite, pokemon)
+            try {
+                val favorite = pokemon.name.getIsFavorite(context)
+                if (favorite) {
+                    remoteDataSource.setFavorite(urlFavorite, pokemon)
+                } else {
+                    remoteDataSource.deleteFavorite(urlFavorite, pokemon)
+                }
+            } catch (e: HttpException) {
+                Log.e("Favorite", e.toString())
             }
         }
     }

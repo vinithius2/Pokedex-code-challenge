@@ -9,7 +9,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.vinithius.pokedexcodechallenge.datasource.repository.PokemonRepository
+import com.vinithius.pokedexcodechallenge.datasource.response.Damage
 import com.vinithius.pokedexcodechallenge.datasource.response.Pokemon
+import com.vinithius.pokedexcodechallenge.extension.getIdIntoUrl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,6 +55,84 @@ class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() 
     }
 
     /**
+     * Get all details pokemon.
+     */
+    fun getPokemonDetail() {
+        CoroutineScope(Dispatchers.IO).launch {
+            _pokemonDetailError.postValue(false)
+            try {
+                _pokemonDetailLoading.postValue(true)
+                val pokemon = repository.getPokemonDetail(_idPokemon)
+                pokemon?.let {
+                    getPokemonEncounters(it)
+                    getPokemonCharacteristic(it)
+                    getPokemonSpecies(it)
+                    getPokemonDamageRelations(it)
+                }
+                _pokemonDetail.postValue(pokemon)
+            } catch (e: Exception) {
+                _pokemonDetailError.postValue(true)
+                Log.e("getPokemon", e.toString())
+            }
+            _pokemonDetailLoading.postValue(false)
+        }
+    }
+
+    /**
+     * Get Pokemon's Encounters.
+     */
+    private suspend fun getPokemonEncounters(pokemon: Pokemon) {
+        repository.getPokemonEncounters(_idPokemon)?.let { apiLocationList ->
+            pokemon.apply { encounters = apiLocationList }
+        }
+    }
+
+    /**
+     * Get Pokemon's Characteristic.
+     */
+    private suspend fun getPokemonCharacteristic(pokemon: Pokemon) {
+        repository.getPokemonCharacteristic(_idPokemon)?.let { apiCharacteristic ->
+            pokemon.apply { characteristic = apiCharacteristic }
+        }
+    }
+
+    /**
+     * Get Pokemon's Species.
+     */
+    private suspend fun getPokemonSpecies(pokemon: Pokemon) {
+        repository.getPokemonSpecies(_idPokemon)?.let { apiSpecie ->
+            pokemon.apply { specie = apiSpecie }
+            apiSpecie.evolution_chain.url.getIdIntoUrl()?.let {
+                getPokemonEvolution(pokemon, it.toInt())
+            }
+        }
+    }
+
+    /**
+     * Get Pokemon's Evolution.
+     */
+    private suspend fun getPokemonEvolution(pokemon: Pokemon, specieId: Int) {
+        repository.getPokemonEvolution(specieId)?.let { apiEvolution ->
+            pokemon.apply { evolution = apiEvolution }
+        }
+    }
+
+    /**
+     * Get Pokemon's Damage Relations.
+     */
+    private suspend fun getPokemonDamageRelations(pokemon: Pokemon) {
+        val damageList: MutableList<Damage> = mutableListOf()
+        pokemon.types?.forEach { typeList ->
+            repository.getPokemonDamageRelations(typeList.type.name)?.let {
+                it.type = typeList.type
+                damageList.add(it)
+            }
+        }
+        pokemon.damage = damageList
+    }
+
+
+    /**
      * Set favorite pokemon to webhook.
      */
     fun setFavorite(pokemon: Pokemon, context: Context?) {
@@ -64,23 +144,4 @@ class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() 
             }
         }
     }
-
-    /**
-     * Get all details pokemon.
-     */
-    fun getPokemonDetail() {
-        CoroutineScope(Dispatchers.IO).launch {
-            _pokemonDetailError.postValue(false)
-            try {
-                _pokemonDetailLoading.postValue(true)
-                val pokemon = repository.getPokemonDetail(_idPokemon)
-                _pokemonDetail.postValue(pokemon)
-            } catch (e: Exception) {
-                _pokemonDetailError.postValue(true)
-                Log.e("getPokemon", e.toString())
-            }
-            _pokemonDetailLoading.postValue(false)
-        }
-    }
-
 }

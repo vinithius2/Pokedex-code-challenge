@@ -233,9 +233,6 @@
                     tools:listitem="@layout/type_viewholder" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.cardview.widget.CardView>
-
     </merge>
-
 </layout>

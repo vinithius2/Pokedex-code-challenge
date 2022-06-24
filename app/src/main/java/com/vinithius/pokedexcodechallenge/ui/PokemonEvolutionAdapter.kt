@@ -40,12 +40,12 @@ class PokemonEvolutionAdapter(
 
         fun bind(
             position: Int,
-            evolution_list: List<Pair<String, String>>
+            evolutionList: List<Pair<String, String>>
         ) {
             with(binding) {
-                evolution_list[position].first.let {
+                evolutionList[position].first.let {
                     setImage(it)
-                    val arrowVisible = evolution_list.size == position + 1
+                    val arrowVisible = evolutionList.size == position + 1
                     textNamePokemon.text = it.capitalize()
                     arrowEvolution.isVisible = !arrowVisible
                 }
@@ -53,9 +53,10 @@ class PokemonEvolutionAdapter(
         }
 
         /**
-         * Add the pokemon image from the source.
+         * Add the pokemon image from the external source, because we have just the name in this case.
          */
         private fun setImage(name: String) {
+
             val urlImage = "https://img.pokemondb.net/artwork/${name.lowercase()}.jpg"
             Picasso.get()
                 .load(urlImage)

@@ -12,11 +12,16 @@ import androidx.palette.graphics.Palette
 import com.squareup.picasso.Picasso
 import com.vinithius.pokedexcodechallenge.ui.PokemonListAdapter
 
-
+/**
+ * Make the first letter Uppercase.
+ */
 fun String.capitalize(): String {
     return this.lowercase().replaceFirstChar(Char::uppercase)
 }
 
+/**
+ * Get ID from URL details.
+ */
 fun String.getIdIntoUrl(): String? {
     try {
         val parse = Uri.parse(this)
@@ -64,6 +69,9 @@ fun String.getDominantColorPallete(): HashMap<String, Palette.Swatch?> {
     return hashMapColor
 }
 
+/**
+ * Get drawable by name in android resource and put image in ImageView.
+ */
 fun String.setDrawableIco(context: Context, image: ImageView) {
     try {
         val resource = context.resources

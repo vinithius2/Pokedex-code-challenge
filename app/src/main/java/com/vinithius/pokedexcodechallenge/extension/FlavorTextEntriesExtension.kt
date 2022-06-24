@@ -5,6 +5,9 @@ import androidx.core.text.HtmlCompat
 import com.vinithius.pokedexcodechallenge.datasource.response.FlavorText
 import com.vinithius.pokedexcodechallenge.ui.PokemonDetailFragment
 
+/**
+ * Transform entries in HTML format.
+ */
 fun List<FlavorText>.getHtmlCompat(): Spanned {
     val entries = this.filter { it.language.name == PokemonDetailFragment.EN }
         .groupBy { it.flavor_text }
