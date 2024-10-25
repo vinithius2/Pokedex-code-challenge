@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 def apikeyPropertiesFile = rootProject.file("apikey.properties")
@@ -8,12 +9,12 @@ def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
-    compileSdk 31
+    compileSdk 34
 
     defaultConfig {
-        applicationId "com.vinithius.pokedexcodechallenge"
+        applicationId "com.vinithius.poke10"
         minSdk 21
-        targetSdk 31
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 

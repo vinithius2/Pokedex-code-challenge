@@ -51,7 +51,7 @@
 
                 </LinearLayout>
 
-                <com.vinithius.pokedexcodechallenge.components.PokeballComponent
+                <com.vinithius.poke10.components.PokeballComponent
                     android:id="@+id/img_pokeball"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
 
-        <com.vinithius.pokedexcodechallenge.components.PokemonLoading
+        <com.vinithius.poke10.components.PokemonLoading
             android:id="@+id/loading_detail_pokemon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -77,7 +77,7 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <com.vinithius.pokedexcodechallenge.components.PokemonCustomListItemComponent
+                <com.vinithius.poke10.components.PokemonCustomListItemComponent
                     android:id="@+id/card_abilities"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
                     tools:listitem="@layout/evolution_viewholder"
                     tools:visibility="visible" />
 
-                <com.vinithius.pokedexcodechallenge.components.PokemonCustomListItemComponent
+                <com.vinithius.poke10.components.PokemonCustomListItemComponent
                     android:id="@+id/card_egg_groups"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
                     app:title_card="@string/title_egg_groups"
                     tools:visibility="visible" />
 
-                <com.vinithius.pokedexcodechallenge.components.PokemonCustomListItemComponent
+                <com.vinithius.poke10.components.PokemonCustomListItemComponent
                     android:id="@+id/card_habitat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                     app:title_card="@string/title_habitat"
                     tools:visibility="visible" />
 
-                <com.vinithius.pokedexcodechallenge.components.PokemonCustomListItemComponent
+                <com.vinithius.poke10.components.PokemonCustomListItemComponent
                     android:id="@+id/card_encounters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

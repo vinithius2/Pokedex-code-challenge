@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
 
-        <com.vinithius.pokedexcodechallenge.components.PokemonLoading
+        <com.vinithius.poke10.components.PokemonLoading
             android:id="@+id/loading_list_pokemon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
