@@ -2,7 +2,7 @@ package com.vinithius.poke10.di
 
 import com.vinithius.poke10.datasource.repository.PokemonRemoteDataSource
 import com.vinithius.poke10.datasource.repository.PokemonRepository
-import com.vinithius.poke10.ui.PokemonViewModel
+import com.vinithius.poke10.ui.viewmodel.PokemonViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module

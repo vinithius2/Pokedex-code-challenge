@@ -3,7 +3,7 @@ package com.vinithius.poke10.extension
 import android.text.Spanned
 import androidx.core.text.HtmlCompat
 import com.vinithius.poke10.datasource.response.FlavorText
-import com.vinithius.poke10.ui.PokemonDetailFragment
+import com.vinithius.poke10.ui.fragments.PokemonDetailFragment
 
 /**
  * Transform entries in HTML format.

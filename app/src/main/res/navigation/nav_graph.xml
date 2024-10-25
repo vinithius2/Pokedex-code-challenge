@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/pokemonListFragment"
-        android:name="com.vinithius.poke10.ui.PokemonListFragment">
+        android:name="com.vinithius.poke10.ui.fragments.PokemonListFragment">
 
         <action
             android:id="@+id/action_pokemonListFragment_to_pokemonDetailFragment"
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/pokemonDetailFragment"
-        android:name="com.vinithius.poke10.ui.PokemonDetailFragment">
+        android:name="com.vinithius.poke10.ui.fragments.PokemonDetailFragment">
 
     </fragment>
 

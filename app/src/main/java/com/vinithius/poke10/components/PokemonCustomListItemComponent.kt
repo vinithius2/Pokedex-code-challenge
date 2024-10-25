@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.vinithius.poke10.R
 import com.vinithius.poke10.databinding.PokemonCustomListItemBottomsheetBinding
 import com.vinithius.poke10.databinding.PokemonCustomListItemComponentBinding
-import com.vinithius.poke10.ui.PokemonCustomAdapter
+import com.vinithius.poke10.ui.adapter.PokemonCustomAdapter
 
 
 class PokemonCustomListItemComponent(context: Context, attrs: AttributeSet?) :

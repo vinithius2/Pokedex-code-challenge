@@ -10,7 +10,7 @@ import android.widget.ImageView
 import androidx.core.content.res.ResourcesCompat
 import androidx.palette.graphics.Palette
 import com.squareup.picasso.Picasso
-import com.vinithius.poke10.ui.PokemonListAdapter
+import com.vinithius.poke10.ui.adapter.PokemonListAdapter
 
 /**
  * Make the first letter Uppercase.

@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import com.vinithius.poke10.R
 import com.vinithius.poke10.databinding.PokeballComponentBinding
 import com.vinithius.poke10.extension.getIsFavorite
-import com.vinithius.poke10.ui.PokemonListAdapter
+import com.vinithius.poke10.ui.adapter.PokemonListAdapter
 
 class PokeballComponent(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs) {
 
